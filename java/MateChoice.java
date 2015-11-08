@@ -12,20 +12,35 @@ public class MateChoice {
    private final int ARRAY_SIZE;
    private Mate[] mates;
 
-   //private int gmc;
-   //private int gmn;
-   //private int bmc;
-   //private int bmn;
-   //private int fi;
-   //private int fd;
-
+   //next class for the mate seperate chain
    private class MateSeperateChain {
-      private ArrayList<Mate> chain;
+      private ArrayList<Mate> femaleList;
+      private ArrayList<Mate> maleList;
       private MateSeperateChain(){
-         chain = new ArrayList<Mate>();
+         femaleList = new ArrayList<Mate>();
+         maleList = new ArrayList<Mate>();
       }
-      private void add(){
-         //TODO something
+      private void add(Mate indv){
+          if(indv.isMale()){
+            maleList.add(indv);
+          } else {
+            femaleList.add(indv);
+          }
+      }
+
+      private boolean contains(Mate indv){
+        ArrayList<Mate> temp;
+        if(indv.isMale()){
+           temp = maleList;
+        } else {
+           temp = femaleList;
+        }
+        for(Mate m8 : temp){
+          if(m8.toString().equals(indv.toString())){
+            return true;
+          }
+        }
+        return false;
       }
 
       private void remove(){
@@ -69,8 +84,25 @@ public class MateChoice {
          String name = "fd" + (i + 1);
          mates[i + gmc + gmn + bmc + bmn + fi] = new Mate(name, false, true, true, true);
       }
+
    }
    //end of constructor
+
+   //runs the generation
+   public double[] runGeneration(){
+      //TODO runs the generation of a population
+      double[] temp = new double[6];
+      return temp;
+   }
+
+   public void makeIndividuals(){
+      //TODO runs the for loops to make the number of individuals
+      //
+   }
+
+   public void giveData(){
+      //TODO gives the data of the run so far
+   }
 
 
 }

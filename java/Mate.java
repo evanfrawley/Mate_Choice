@@ -30,6 +30,8 @@ public class Mate {
    public String toString(){
       return name;
    }
-
+   public boolean isMale(){
+     return male;
+   }
 
 }
