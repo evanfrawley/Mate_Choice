@@ -6,11 +6,14 @@
 
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MateChoice {
 
    private final int ARRAY_SIZE;
    private Mate[] mates;
+   private MateSeperateChain[] world;
+   private Random r;
 
    //next class for the mate seperate chain
    private class MateSeperateChain {
@@ -48,12 +51,13 @@ public class MateChoice {
       }
    }
 
-   public MateChoice(int size, int gmc, int gmn, int bmc, int bmn, int fi, int fd) {
+   public MateChoice(int gmc, int gmn, int bmc, int bmn, int fi, int fd, int size) {
 
       this.ARRAY_SIZE = size;
       int total = gmc + gmn + bmc + bmn + fi + fd;
       this.mates = new Mate[total];
 
+      //the series of forloops creates all of the mates that are in the generation
       //high quality males that care
       for(int i = 0; i < gmc; i++){
          String name = "gmc" + (i + 1);
@@ -92,6 +96,16 @@ public class MateChoice {
    public double[] runGeneration(){
       //TODO runs the generation of a population
       double[] temp = new double[6];
+      r = new Random();
+      //add all of the mates to a random section of a new array,
+      world = new MateSeperateChain[this.mates.length * 2];
+      for(Mate mate : this.mates){
+         int n = r.nextInt(this.world.length);
+         if(world[n] == null){
+            world[n] = new MateSeperateChain();
+            world[n].add(mate);
+         }
+      }
       return temp;
    }
 
@@ -100,7 +114,7 @@ public class MateChoice {
       //
    }
 
-   public void giveData(){
+   public void runAnalysis(){
       //TODO gives the data of the run so far
    }
 
