@@ -17,14 +17,17 @@ public class MateChoice {
    private double[] payoffs;
    private int worldSize;
 
-   //next class for the mate seperate chain
+
+   //nested class for the mate seperate chain
    private class MateSeperateChain {
       private ArrayList<Mate> femaleList;
       private ArrayList<Mate> maleList;
+
       private MateSeperateChain(){
          femaleList = new ArrayList<Mate>();
          maleList = new ArrayList<Mate>();
       }
+
       private void add(Mate indv){
           if(indv.isMale()){
             maleList.add(indv);
@@ -34,24 +37,33 @@ public class MateChoice {
       }
 
       private boolean contains(Mate indv){
-        ArrayList<Mate> temp;
-        if(indv.isMale()){
-           temp = maleList;
-        } else {
-           temp = femaleList;
-        }
-        for(Mate m8 : temp){
-          if(m8.toString().equals(indv.toString())){
-            return true;
-          }
-        }
-        return false;
+         ArrayList<Mate> temp;
+         if(indv.isMale()){
+            temp = maleList;
+         } else {
+            temp = femaleList;
+         }
+         for(Mate m8 : temp){
+            if(m8.toString().equals(indv.toString())){
+               return true;
+            }
+         }
+         return false;
       }
 
       private void remove(){
          //TODO something
       }
+
+      private boolean isListEmpty(){
+         return maleList.isEmpty() && femaleList.isEmpty();
+      }
+
+      private int min(){
+         return Math.min(maleList.size(), femaleList.size());
+      }
    }
+
 
    public MateChoice(int gmc, int gmn, int bmc, int bmn, int fi, int fd, int size) {
 
@@ -98,7 +110,7 @@ public class MateChoice {
 
    //runs the generation
    //returns the offspring values of each of the classes
-   public double[] runGeneration(){
+   public double[] runTimeStep(){
       //TODO runs the generation of a population
       double[] temp = new double[6];
       r = new Random();
@@ -108,11 +120,15 @@ public class MateChoice {
          int n = r.nextInt(this.world.length);
          if(world[n] == null){
             world[n] = new MateSeperateChain();
-            world[n].add(mate);
          }
+         mate.decPenalty();
+         world[n].add(mate);
       }
+      runAnalysis(world, temp);
       return temp;
    }
+
+
 
    public void makeIndividuals(){
       //TODO runs the for loops to make the number of individuals
@@ -128,15 +144,15 @@ public class MateChoice {
    // 5 - discriminate males
 
    //calculates what the offspring value is for two makes that intersect
-   private double offspringValue(Mate mate1, Mate mate2){
-      if(mate1.isHQ()){
-         if(mate1.doesCare()){
+   private double offspringValue(Mate mate){
+      if(mate.isHQ()){
+         if(mate.doesCare()){
             return 2.5;
          } else {
             return 1.5;
          }
       } else {
-         if(mate1.doesCare()){
+         if(mate.doesCare()){
             return (double) 4/3;
          } else {
             return 1.0;
@@ -144,9 +160,41 @@ public class MateChoice {
       }
    }
 
-   public void runAnalysis(){
+   //changes the mate's penalty to on, otherwise decrements
+   //calls offspringvalue to increment payoffs
+   public void runAnalysis(MateSeperateChain[] world, double[] payoffs){
       //TODO gives the data of the run so far
+
+      for(MateSeperateChain msc : world){
+         if(msc != null){
+            if(!msc.isListEmpty()){
+               int min = msc.min();
+               for(int i = 0; i < min; i++){
+                  Mate temp1 = msc.maleList.get(i);
+                  Mate temp2 = msc.femaleList.get(i);
+                  if(willMate(temp1, temp2)){
+                     payoffs[temp1.index()] += offspringValue(temp1);
+                     payoffs[temp2.index()] += offspringValue(temp2);
+                     temp1.penalty();
+                     temp2.penalty();
+                  }
+               }
+            }
+         }
+      }
    }
 
+   private boolean willMate(Mate m1, Mate m2){
 
+      if(m1.checkPenalty() > 0 || m2.checkPenalty() > 0){
+         return false;
+      }
+
+      if(m2.isDis()){
+         if(!m1.isHQ()){
+            return false;
+         }
+      }
+      return true;
+   }
 }
