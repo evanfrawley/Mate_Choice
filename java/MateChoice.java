@@ -14,7 +14,7 @@ public class MateChoice {
    private Mate[] mates;
    private MateSeperateChain[] world;
    private Random r;
-   private double[] payoffs;
+   public double[] payoffs;
    private int worldSize;
 
 
@@ -110,7 +110,7 @@ public class MateChoice {
 
    //runs the generation
    //returns the offspring values of each of the classes
-   public double[] runTimeStep(){
+   public boolean runTimeStep(){
       //TODO runs the generation of a population
       double[] temp = new double[6];
       r = new Random();
@@ -124,8 +124,8 @@ public class MateChoice {
          mate.decPenalty();
          world[n].add(mate);
       }
-      runAnalysis(world, temp);
-      return temp;
+      runAnalysis(world);
+      return true;
    }
 
 
@@ -162,7 +162,7 @@ public class MateChoice {
 
    //changes the mate's penalty to on, otherwise decrements
    //calls offspringvalue to increment payoffs
-   public void runAnalysis(MateSeperateChain[] world, double[] payoffs){
+   public void runAnalysis(MateSeperateChain[] world){
       //TODO gives the data of the run so far
 
       for(MateSeperateChain msc : world){
@@ -173,8 +173,8 @@ public class MateChoice {
                   Mate temp1 = msc.maleList.get(i);
                   Mate temp2 = msc.femaleList.get(i);
                   if(willMate(temp1, temp2)){
-                     payoffs[temp1.index()] += offspringValue(temp1);
-                     payoffs[temp2.index()] += offspringValue(temp2);
+                     this.payoffs[temp1.index()] += offspringValue(temp1);
+                     this.payoffs[temp2.index()] += offspringValue(temp2);
                      temp1.penalty();
                      temp2.penalty();
                   }
@@ -197,4 +197,5 @@ public class MateChoice {
       }
       return true;
    }
+
 }

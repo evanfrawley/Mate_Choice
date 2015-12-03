@@ -9,15 +9,25 @@
 public class MateChoiceClient {
    public static void main(String[] args) {
       intro();
-      int i = 6;
-      int[] params = new int[6];
+      int i = 7;
+      int[] params = new int[7];
       Scanner console = new Scanner(System.in);
-      while (i >= 0){
+      while (i > 0){
          System.out.println(getText(i));
          params[params.length - i] = console.nextInt();
          i--;
       }
       MateChoice mc = new MateChoice(params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
+      String user = "";
+      while(!user.startsWith("q")){
+         //have the client run here!
+         for(int j = 0; j < 10; j++){
+            mc.runTimeStep();
+            System.out.println(Arrays.toString(mc.payoffs));
+         }
+         user = "q";
+      }
+
    }
    //gmc + gmn + bmc + bmn + fi + fd
    public static void intro(){
@@ -27,19 +37,19 @@ public class MateChoiceClient {
 
    public static String getText(int n){
       String type = "";
-      if(n == 6){
+      if(n == 7){
          type = "HIGH QUALITY MALES THAT CARE";
-      } else if (n == 5){
+      } else if (n == 6){
          type = "HIGH QUALITY MALES THAT DO NOT CARE";
-      } else if (n == 4){
+      } else if (n == 5){
          type = "LOW QUALITY MALES THAT CARE";
-      } else if (n == 3){
+      } else if (n == 4){
          type = "LOW QUALITY MALES THAT DO NOT CARE";
-      } else if (n == 2){
+      } else if (n == 3){
          type = "FEMALES THAT ARE INDISCRIMINATE";
-      } else if (n == 1){
+      } else if (n == 2){
          type = "FEMALES THAT ARE DISCRIMINATE";
-      } else {
+      } else if (n == 1){
          type = "THE SIZE OF THE ENVIRONMENT";
       }
       return "Please give me the number of " + type + " that you would like.";
