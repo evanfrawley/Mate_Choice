@@ -14,6 +14,8 @@ public class MateChoice {
    private Mate[] mates;
    private MateSeperateChain[] world;
    private Random r;
+   private double[] payoffs;
+   private int worldSize;
 
    //next class for the mate seperate chain
    private class MateSeperateChain {
@@ -56,6 +58,8 @@ public class MateChoice {
       this.ARRAY_SIZE = size;
       int total = gmc + gmn + bmc + bmn + fi + fd;
       this.mates = new Mate[total];
+      this.payoffs = new double[6];
+      this.worldSize = size;
 
       //the series of forloops creates all of the mates that are in the generation
       //high quality males that care
@@ -93,12 +97,13 @@ public class MateChoice {
    //end of constructor
 
    //runs the generation
+   //returns the offspring values of each of the classes
    public double[] runGeneration(){
       //TODO runs the generation of a population
       double[] temp = new double[6];
       r = new Random();
       //add all of the mates to a random section of a new array,
-      world = new MateSeperateChain[this.mates.length * 2];
+      world = new MateSeperateChain[this.worldSize];
       for(Mate mate : this.mates){
          int n = r.nextInt(this.world.length);
          if(world[n] == null){
@@ -112,6 +117,31 @@ public class MateChoice {
    public void makeIndividuals(){
       //TODO runs the for loops to make the number of individuals
       //
+   }
+
+   //get payoff values
+   // 0 - high quality males that care
+   // 1 - high quality males that dont care
+   // 2 - low quality males that care
+   // 3 - low quality dont care
+   // 4 - indiscriminate females
+   // 5 - discriminate males
+
+   //calculates what the offspring value is for two makes that intersect
+   private double offspringValue(Mate mate1, Mate mate2){
+      if(mate1.isHQ()){
+         if(mate1.doesCare()){
+            return 2.5;
+         } else {
+            return 1.5;
+         }
+      } else {
+         if(mate1.doesCare()){
+            return (double) 4/3;
+         } else {
+            return 1.0;
+         }
+      }
    }
 
    public void runAnalysis(){

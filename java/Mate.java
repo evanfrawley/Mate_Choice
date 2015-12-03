@@ -34,4 +34,11 @@ public class Mate {
      return male;
    }
 
+   public boolean isHQ(){
+      return this.quality;
+   }
+
+   public boolean doesCare(){
+      return this.care;
+   }
 }
