@@ -129,12 +129,6 @@ public class MateChoice {
    }
 
 
-
-   public void makeIndividuals(){
-      //TODO runs the for loops to make the number of individuals
-      //
-   }
-
    //get payoff values
    // 0 - high quality males that care
    // 1 - high quality males that dont care
@@ -196,6 +190,15 @@ public class MateChoice {
          }
       }
       return true;
+   }
+
+   //need to be able to iterate through and get the relative values RIP
+   public int[] values(){
+      int[] val = new int[6];
+      for(int i = 0; i < 6; i++){
+         val[i] = (int) payoffs[i];
+      }
+      return val;
    }
 
 }
