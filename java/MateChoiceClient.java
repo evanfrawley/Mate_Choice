@@ -13,22 +13,32 @@ public class MateChoiceClient {
       intro();
       int i = 7;
       int[] params = new int[7];
+      String[] strs = {"GEN,", "HQMC,", "HQDC,", "LQMC,", "LQDC,", "FI,", "FD,"};
       Scanner console = new Scanner(System.in);
+      PrintStream ps = initFile();
+
       while (i > 0){
          System.out.println(getText(i));
          params[params.length - i] = console.nextInt();
          i--;
       }
+
       int[] mcval = new int[6];
-      for(int y = 0; y < 6; y++){
-         mcval[i] = params[i];
+
+      for(int y = 0; y < 7; y++){
+         ps.print(strs[y]);
+         if(y != 6){
+            mcval[y] = params[y];
+         }
       }
+
+      ps.println();
       MateChoice mc = new MateChoice(params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
       String user = "";
       while(!user.startsWith("q")){
          //have the client run here!
          System.out.println("Would you like to run the simulation? Press \"q\" to quit");
-         String string = console.next();
+         String x = console.next();
          if(!x.startsWith("q")){
             System.out.println("How many generations would you like to run?");
             int gen = console.nextInt();
@@ -40,10 +50,19 @@ public class MateChoiceClient {
                mc = new MateChoice(mcval[0], mcval[1], mcval[2], mcval[3], mcval[4], mcval[5], params[6]);
                for(int l = 0; l < ts; l++){
                   mc.runTimeStep();
+
                }
                mcval = mc.values();
+               ps.print(1 + k + ",");
+               for(int xd = 0; xd < mcval.length; xd++){
+                  ps.print((int) mc.payoffs[xd] + ",");
+
+               }
+               ps.println();
+
             }
-            for()
+
+
          }
 
          user = "q";
@@ -62,7 +81,7 @@ public class MateChoiceClient {
       System.out.println("The purpose of this program is to . . .");
    }
 
-   public PrintStream initFile(){
+   public static PrintStream initFile() throws FileNotFoundException {
       DateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
       Date d = new Date();
       String str = df.format(d);

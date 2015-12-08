@@ -16,6 +16,7 @@ public class MateChoice {
    private Random r;
    public double[] payoffs;
    private int worldSize;
+   private int total;
 
 
    //nested class for the mate seperate chain
@@ -68,7 +69,7 @@ public class MateChoice {
    public MateChoice(int gmc, int gmn, int bmc, int bmn, int fi, int fd, int size) {
 
       this.ARRAY_SIZE = size;
-      int total = gmc + gmn + bmc + bmn + fi + fd;
+      this.total = gmc + gmn + bmc + bmn + fi + fd;
       this.mates = new Mate[total];
       this.payoffs = new double[6];
       this.worldSize = size;
@@ -169,7 +170,9 @@ public class MateChoice {
                   if(willMate(temp1, temp2)){
                      this.payoffs[temp1.index()] += offspringValue(temp1);
                      this.payoffs[temp2.index()] += offspringValue(temp2);
-                     temp1.penalty();
+                     if(temp1.doesCare()){
+                        temp1.penalty();
+                     }
                      temp2.penalty();
                   }
                }
@@ -195,8 +198,12 @@ public class MateChoice {
    //need to be able to iterate through and get the relative values RIP
    public int[] values(){
       int[] val = new int[6];
+      int t = 0;
       for(int i = 0; i < 6; i++){
-         val[i] = (int) payoffs[i];
+         t += payoffs[i];
+      }
+      for(int i = 0; i < 6; i++){
+         val[i] = (int) (payoffs[i] / t * 100.0);
       }
       return val;
    }
