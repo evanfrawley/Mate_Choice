@@ -203,9 +203,11 @@ public class MateChoice {
          t += payoffs[i];
       }
       for(int i = 0; i < 6; i++){
-         val[i] = (int) (payoffs[i] / t * 100.0);
+         val[i] = (int) (payoffs[i] / t * total);
       }
       return val;
    }
+
+
 
 }
