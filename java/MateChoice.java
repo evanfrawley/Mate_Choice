@@ -219,6 +219,7 @@ public class MateChoice {
       //only grab high and low qual mates, and then the females
 
       val[0] = payoffs[0] + payoffs[1];
+      //test
 
       return val;
 
