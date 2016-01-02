@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class MateChoice {
 
    private final int ARRAY_SIZE;
@@ -184,6 +185,8 @@ public class MateChoice {
    //need to add something that will make it such that it has a constant number of males and demales per generation
 
 
+
+
    //
    //returns whether or not the two mates passed in will mate with each other
    private boolean willMate(Mate m1, Mate m2){
@@ -204,7 +207,7 @@ public class MateChoice {
 
    //need to be able to iterate through and get the relative values RIP
    public int[] values(){
-      int[] val = new int[6];
+      int[] val = new int[4];
       int t = 0;
       for(int i = 0; i < 6; i++){
          t += payoffs[i];
@@ -212,7 +215,15 @@ public class MateChoice {
       for(int i = 0; i < 6; i++){
          val[i] = (int) (payoffs[i] / t * total);
       }
+
+      //only grab high and low qual mates, and then the females
+
+      val[0] = payoffs[0] + payoffs[1];
+
       return val;
+
+
+
    }
 
 

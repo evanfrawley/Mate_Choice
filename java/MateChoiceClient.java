@@ -68,6 +68,8 @@ public class MateChoiceClient {
          user = "q";
       }
 
+      
+
       //run 100 times or however much,and then snag the payoff values, calculate ratios
       //
       //
