@@ -181,6 +181,11 @@ public class MateChoice {
       }
    }
 
+   //need to add something that will make it such that it has a constant number of males and demales per generation
+
+
+   //
+   //returns whether or not the two mates passed in will mate with each other
    private boolean willMate(Mate m1, Mate m2){
 
       if(m1.checkPenalty() > 0 || m2.checkPenalty() > 0){
