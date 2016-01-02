@@ -195,6 +195,8 @@ public class MateChoice {
       return true;
    }
 
+
+
    //need to be able to iterate through and get the relative values RIP
    public int[] values(){
       int[] val = new int[6];

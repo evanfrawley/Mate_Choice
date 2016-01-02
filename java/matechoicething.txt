@@ -1,0 +1,3 @@
+TODO:
+
+make it such that there is alwyas a set # of high and low quality males, of which there is a random chance of them caring or not
