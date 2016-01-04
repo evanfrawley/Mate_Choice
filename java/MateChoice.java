@@ -223,8 +223,6 @@ public class MateChoice {
 
       return val;
 
-
-
    }
 
 
