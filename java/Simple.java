@@ -8,5 +8,9 @@ public class Simple {
          mc.runTimeStep();
       }
       System.out.println(Arrays.toString(mc.values()));
+
+      
    }
+
+
 }
